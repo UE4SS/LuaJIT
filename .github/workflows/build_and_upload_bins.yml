@@ -23,7 +23,7 @@ jobs:
       - name: Build
         run: |
           cd src
-          msvcbuild.bat static
+          .\msvcbuild.bat static
 
       - name: Release
         uses: softprops/action-gh-release@v1
