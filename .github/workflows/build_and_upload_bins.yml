@@ -1,0 +1,44 @@
+name: Build & upload luajit bins
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [ "v2.1" ]
+
+permissions:
+  contents: read
+
+jobs:
+  make-release:
+    permissions: write-all
+    runs-on: windows-2022
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Setup Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.x'
+
+      - name: Setup MSVC
+        uses: ilammy/msvc-dev-cmd@v1
+
+      - name: Setup Ninja
+        uses: seanmiddleditch/gha-setup-ninja@v3
+
+      - name: Build
+        run: |
+          cd src
+          %VS2022INSTALLDIR%/VC/Auxiliary/Build/vcvars64.bat
+          msvcbuild.bat static
+
+      - name: Release
+        uses: softprops/action-gh-release@v1
+        with:
+          prerelease: true
+          tag_name: bins
+          files: |
+            src/luajit.lib
+            src/lua51.lib
