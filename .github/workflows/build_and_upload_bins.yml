@@ -17,21 +17,12 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v3
 
-      - name: Setup Python
-        uses: actions/setup-python@v4
-        with:
-          python-version: '3.x'
-
       - name: Setup MSVC
         uses: ilammy/msvc-dev-cmd@v1
-
-      - name: Setup Ninja
-        uses: seanmiddleditch/gha-setup-ninja@v3
 
       - name: Build
         run: |
           cd src
-          %VS2022INSTALLDIR%/VC/Auxiliary/Build/vcvars64.bat
           msvcbuild.bat static
 
       - name: Release
