@@ -20,16 +20,30 @@ jobs:
       - name: Setup MSVC
         uses: ilammy/msvc-dev-cmd@v1
 
-      - name: Build
+      - name: Build Release
         run: |
           cd src
           .\msvcbuild.bat static
 
-      - name: Release
+      - name: Release Release
         uses: softprops/action-gh-release@v1
         with:
           prerelease: true
           tag_name: bins
+          files: |
+            src/luajit.lib
+            src/lua51.lib
+
+      - name: Build Debug
+        run: |
+          cd src
+          .\msvcbuild.bat debug static
+
+      - name: Release Debug
+        uses: softprops/action-gh-release@v1
+        with:
+          prerelease: true
+          tag_name: debug_bins
           files: |
             src/luajit.lib
             src/lua51.lib
