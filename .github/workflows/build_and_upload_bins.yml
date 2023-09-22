@@ -36,6 +36,7 @@ jobs:
 
       - name: Build Debug
         run: |
+          make clean
           cd src
           .\msvcbuild.bat debug static
 
